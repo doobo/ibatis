@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <!-- 单个别名定义 -->
+        <typeAlias alias="user" type="vip.ipav.po.User"/>
+        <!-- 批量别名定义，扫描整个包下的类，别名为类名（首字母大写或小写都可以） -->
+        <package name="vip.ipav.po"/>
+        <package name="vip.ipav.dao"/>
+    </typeAliases>
+    <mappers>
+        <mapper resource="sqlmap/User.xml"/>
+        <mapper resource="sqlmap/UserMapper.xml"/>
+        <!--
+        <mapper class="vip.ipav.dao.UserMapper"/>
+        <package name="vip.ipav.dao"/>
+        *注意：此种方法要求mapper接口名称和mapper映射文件名称相同，且放在同一个目录中
+        -->
+    </mappers>
+
+</configuration>

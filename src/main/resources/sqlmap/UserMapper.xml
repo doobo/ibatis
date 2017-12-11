@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vip.ipav.dao.UserMapper">
+    <!-- 根据id获取用户信息 -->
+    <select id="findUserById" parameterType="int" resultType="vip.ipav.po.User">
+        select * from user where id = #{id}
+    </select>
+    <!-- 自定义条件查询用户列表 -->
+    <select id="findUserByUsername" parameterType="java.lang.String"
+            resultType="vip.ipav.po.User">
+        select * from user where username like '%${value}%'
+    </select>
+
+    <!--
+    #{}表示一个占位符号，通过#{}可以实现preparedStatement向占位符中设置值，自动进行java类型和jdbc类型转换，
+    #{}可以有效防止sql注入。 #{}可以接收简单类型值或pojo属性值。 如果parameterType传输单个简单类型值，
+    #{}括号中可以是value或其它名称。
+
+    ${}表示拼接sql串，通过${}可以将parameterType 传入的内容拼接在sql中且不进行jdbc类型转换，
+    ${}可以接收简单类型值或pojo属性值，如果parameterType传输单个简单类型值，${}括号中只能是value
+    -->
+    <!-- 添加用户 -->
+    <insert id="insertUser" parameterType="vip.ipav.po.User">
+        /*selectKey实现将主键返回,LAST_INSERT_ID():是mysql的函数，返回auto_increment自增列新记录id值*/
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into user(username,birthday,sex,address)
+        values(#{username},#{birthday},#{sex},#{address})
+    </insert>
+
+    <!--通过select uuid()得到uuid值 设置主键为字符串才行
+    <insert  id="insertUserByUUID" parameterType="vip.ipav.po.User">
+        <selectKey resultType="java.lang.String" order="BEFORE"
+                   keyProperty="id">
+            select uuid()
+        </selectKey>
+        insert into user(id,username,birthday,sex,address)
+        values(#{id},#{username},#{birthday},#{sex},#{address})
+    </insert>
+    -->
+
+    <!--Oracle使用序列生成主键
+    <insert id="insertUser" parameterType="cn.itcast.mybatis.po.User">
+        <selectKey resultType="java.lang.Integer" order="BEFORE"
+                   keyProperty="id">
+            SELECT 自定义序列.NEXTVAL FROM DUAL
+        </selectKey>
+        insert into user(id,username,birthday,sex,address)
+        values(#{id},#{username},#{birthday},#{sex},#{address})
+    </insert>
+    -->
+
+    <!-- 删除用户 -->
+    <delete id="deleteUserById" parameterType="int">
+        delete from user where id=#{id}
+    </delete>
+
+    <!--更新-->
+    <update id="updateUser" parameterType="vip.ipav.po.User">
+        update user set username=#{username},birthday=#{birthday},sex=#{sex},address=#{address}
+        where id=#{id}
+    </update>
+
+    <!-- 传递hashmap综合查询用户信息，id,username是map的key -->
+    <select id="findUserByHashmap" parameterType="hashmap" resultType="user">
+        select * from user where id=#{id} and username like '%${username}%'
+    </select>
+
+    <!--自定义VO查询,Vo里面有User属性-->
+    <!--<select id="findUserByVo" parameterType="queryVo" resultType="user">
+        select * from user where id=#{user.id} and username like '%${user.username}%'
+    </select>-->
+
+</mapper>
+
