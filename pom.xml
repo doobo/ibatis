@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>vip.ipav</groupId>
-  <artifactId>ibits</artifactId>
+  <artifactId>ibatis</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>ibits</name>
+  <name>ibatis</name>
   <url>http://maven.apache.org</url>
 
   <properties>
@@ -65,11 +65,25 @@
       <version>5.1.6</version>
     </dependency>
 
+    <!--解决阿里druid空异常-->
+    <dependency>
+      <groupId>org.wisdom-framework</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.1.34_1</version>
+    </dependency>
+
     <!--dbcp连接池-->
     <dependency>
       <groupId>commons-dbcp</groupId>
       <artifactId>commons-dbcp</artifactId>
       <version>1.4</version>
+    </dependency>
+
+    <!--druid阿里连接池-->
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>druid</artifactId>
+      <version>1.0.18</version>
     </dependency>
 
     <!-- log4j -->

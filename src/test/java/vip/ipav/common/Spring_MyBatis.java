@@ -1,4 +1,4 @@
-package vip.ipav.vip.ipav.demo;
+package vip.ipav.common;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.Test;
@@ -9,7 +9,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import vip.ipav.dao.UserMapper;
 import vip.ipav.po.User;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**

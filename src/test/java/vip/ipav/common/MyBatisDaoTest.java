@@ -1,4 +1,4 @@
-package vip.ipav.vip.ipav.demo;
+package vip.ipav.common;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
