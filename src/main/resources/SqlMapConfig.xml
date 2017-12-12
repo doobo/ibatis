@@ -29,6 +29,7 @@
     <mappers>
         <mapper resource="sqlmap/User.xml"/>
         <mapper resource="sqlmap/UserMapper.xml"/>
+        <mapper resource="sqlmap/DiscussMapper.xml"/>
         <!--
         <mapper class="vip.ipav.dao.UserMapper"/>
         <package name="vip.ipav.dao"/>

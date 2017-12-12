@@ -10,10 +10,32 @@ Target Server Type    : MYSQL
 Target Server Version : 50528
 File Encoding         : 65001
 
-Date: 2017-12-11 17:11:54
+Date: 2017-12-12 20:38:36
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for discuss
+-- ----------------------------
+DROP TABLE IF EXISTS `discuss`;
+CREATE TABLE `discuss` (
+  `user_id` int(11) DEFAULT NULL,
+  `commit` varchar(255) DEFAULT NULL,
+  `createtime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of discuss
+-- ----------------------------
+INSERT INTO `discuss` VALUES ('1', '评论1', '2017-12-12 14:03:44');
+INSERT INTO `discuss` VALUES ('2', '评论2', '2017-12-12 14:15:54');
+INSERT INTO `discuss` VALUES ('3', '评论3', '2017-12-12 14:15:58');
+INSERT INTO `discuss` VALUES ('1', '评论4', '2017-12-12 14:16:01');
+INSERT INTO `discuss` VALUES ('2', '评论5', '2017-12-12 14:16:07');
+INSERT INTO `discuss` VALUES ('1', '评论6', '2017-12-12 14:14:56');
 
 -- ----------------------------
 -- Table structure for user
@@ -31,6 +53,6 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', '张三', '男', '2017-12-11 15:19:00', '测试地址');
+INSERT INTO `user` VALUES ('1', '张三', '男', '2017-12-12 13:52:06', '广东深圳');
 INSERT INTO `user` VALUES ('2', '李四', '男', '2017-12-11 16:15:06', '湖南邵阳');
 INSERT INTO `user` VALUES ('3', '王二', '男', '2017-12-11 16:50:19', '北京市');

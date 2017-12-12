@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * Created by 89003522 on 2017/12/11.
+ * 结合DAO接口和Mapper文件，执行SQL语句
  */
 public class MyBatisDaoTest {
     private SqlSessionFactory sqlSessionFactory;

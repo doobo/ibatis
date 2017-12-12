@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * Created by 89003522 on 2017/12/11.
+ * 原始直接调用mapper文件执行sql语句
  */
 public class Mybatis_first {
     //会话工厂

@@ -64,7 +64,7 @@
         where id=#{id}
     </update>
 
-    <!-- 传递hashmap综合查询用户信息，id,username是map的key -->
+    <!-- 传递 hashMap 综合查询用户信息，id,username是map的key -->
     <select id="findUserByHashmap" parameterType="hashmap" resultType="user">
         select * from user where id=#{id} and username like '%${username}%'
     </select>
@@ -73,6 +73,11 @@
     <!--<select id="findUserByVo" parameterType="queryVo" resultType="user">
         select * from user where id=#{user.id} and username like '%${user.username}%'
     </select>-->
+
+    <!-- 获取用户列表总数 -->
+    <select id="findUserCount" resultType="int">
+        select count(1) from user
+    </select>
 
 </mapper>
 
