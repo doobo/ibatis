@@ -6,16 +6,16 @@ import java.util.Date;
  * Created by 89003522 on 2017/12/12.
  */
 public class Discuss {
-    private User user;
+    private Content content;
     private String commit;
     private Date createTime;
 
-    public User getUser() {
-        return user;
+    public Content getContent() {
+        return content;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setContent(Content desc) {
+        this.content = content;
     }
 
     public String getCommit() {
@@ -37,7 +37,7 @@ public class Discuss {
     @Override
     public String toString() {
         return "Discuss{" +
-                "user=" + user +
+                "content=" + content +
                 ", commit='" + commit + '\'' +
                 ", createTime=" + createTime +
                 '}';

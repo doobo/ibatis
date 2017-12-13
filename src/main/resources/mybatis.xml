@@ -11,7 +11,7 @@
     </typeAliases>
     <mappers>
         <mapper resource="sqlmap/UserMapper.xml"/>
-        <mapper resource="sqlmap/DiscussMapper.xml"/>
+        <mapper resource="sqlmap/ContentMapper.xml"/>
         <!--
         <mapper class="vip.ipav.dao.UserMapper"/>
         <package name="vip.ipav.dao"/>
