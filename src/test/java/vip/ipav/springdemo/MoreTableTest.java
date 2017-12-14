@@ -57,4 +57,5 @@ public class MoreTableTest {
     public void findMoreMap() throws Exception {
         System.out.println(descMapper.findMoreMap());
     }
+
 }

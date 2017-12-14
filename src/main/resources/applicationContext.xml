@@ -2,13 +2,23 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
     <!-- 加载配置文件 -->
     <context:property-placeholder location="classpath:db.properties"/>
+
+    <context:component-scan base-package="vip.ipav.*">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Service" />
+    </context:component-scan>
 
     <!-- dbcp 数据库连接池  -->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
@@ -19,7 +29,6 @@
         <property name="maxActive" value="10"/>
         <property name="maxIdle" value="5"/>
     </bean>
-
     <!-- 阿里 druid 数据库连接池-->
     <bean id="dataSourceDruid" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
@@ -55,9 +64,24 @@
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <!-- 数据库连接池 -->
-        <property name="dataSource" ref="dataSourceDruid" />
+        <property name="dataSource" ref="dataSourceDruid"/>
         <!-- 加载mybatis的全局配置文件 -->
         <property name="configLocation" value="classpath:mybatis.xml" />
+        <!--事务,取消否则异常，原因未知-->
+        <!--<property name="transactionFactory">
+            <bean class="org.apache.ibatis.transaction.managed.ManagedTransactionFactory" />
+        </property>-->
+    </bean>
+
+    <!--用模板可以直接getMapper()获取与当前线程绑定的session的实例-->
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionFactory" />
+    </bean>
+
+    <!--如果将mapper.xml和mapper接口的名称保持一致且放在一个目录 则不用在sqlMapConfig.xml中进行配置-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="vip.ipav.dao" />
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
     </bean>
 
     <!--单个文件制定接口-->
@@ -66,10 +90,31 @@
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>-->
 
-    <!-- scan for mappers and let them be autowired 自动扫描-->
-    <!--如果将mapper.xml和mapper接口的名称保持一致且放在一个目录 则不用在sqlMapConfig.xml中进行配置-->
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="vip.ipav.dao" />
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+    <!-- 配置事务管理器，一定得和SqlSessionFactoryBean的dataSource相同-->
+    <!--一定要到开启事务的(**类方法类抛出异常**)，否则spring无法检查到异常而回滚数据-->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSourceDruid" />
     </bean>
+
+    <!--开启注解式事务管理器，就不需要下面的事务切面配置-->
+    <tx:annotation-driven transaction-manager="txManager"/>
+
+    <!--
+    &lt;!&ndash; 2. 配置事务属性, 需要事务管理器 &ndash;&gt;
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+        <tx:attributes>
+            <tx:method name="get*" read-only="true" />
+            <tx:method name="purchase" propagation="REQUIRES_NEW" />
+            <tx:method name="*" />
+        </tx:attributes>
+    </tx:advice>
+
+    &lt;!&ndash; 3. 配置事务切点, 并把切点和事务属性关联起来 &ndash;&gt;
+    <aop:config>
+        <aop:pointcut expression="execution(* vip.ipav.server.*.*(..))"
+                      id="txPointcut" />
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut" />
+    </aop:config>
+    -->
+
 </beans>

@@ -1,5 +1,6 @@
 package vip.ipav.dao;
 
+import org.springframework.stereotype.Component;
 import vip.ipav.po.User;
 
 import java.util.HashMap;
@@ -8,6 +9,7 @@ import java.util.List;
 /**
  * 用户管理mapper
  */
+@Component
 public interface UserMapper {
     //根据用户id查询用户信息
     public User findUserById(int id) throws Exception;
@@ -19,5 +21,6 @@ public interface UserMapper {
     public List<User> findUserByHashMap(HashMap map) throws Exception;
 
     public int findUserCount() throws Exception;
+
 }
 

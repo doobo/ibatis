@@ -9,7 +9,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import vip.ipav.dao.UserMapper;
 import vip.ipav.po.User;
+import vip.ipav.server.Transaction;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -52,5 +54,18 @@ public class Spring_MyBatis {
     @Test
     public void findCount() throws Exception{
         System.out.println(userMapper.findUserCount());
+    }
+
+    /**
+     * 事务测试
+     * 必须在事务所在的类方法中抛出异常，才能回滚事务
+     */
+    @Autowired
+    Transaction transaction;
+
+    @Test
+    public void insertUser() throws Exception{
+        transaction.insertUser(new User(5,"小芳","女",new Date(),"湖北武汉-无异常"));
+        transaction.insertUserException(new User(5,"异常","女",new Date(),"异常数据"));
     }
 }
